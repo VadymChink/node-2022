@@ -38,7 +38,7 @@ reMove('./girls', './boys', 'male');
 let fs = require('fs');
 let path = require('path');
 
-function f(read) {
+/*function f(read) {
     fs.readdir(read, (err, files) => {
             if (err) return console.log(err);
 
@@ -60,6 +60,6 @@ function f(read) {
             }
         }
     )
-}
+}*/
 
-f(path.join(__dirname, 'move'));
+// f(path.join(__dirname, 'move'));
