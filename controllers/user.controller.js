@@ -32,17 +32,27 @@ module.exports = {
         }
     },
     deleteById: async (req, res, next) => {
-        const {userId} = req.params;
+        try {
 
-        await userService.deleteUser({_id: userId});
+            const {userId} = req.params;
 
-        res.sendStatus(204);
+            await userService.deleteUser({_id: userId});
+
+            res.sendStatus(204);
+        } catch (e) {
+            next(e.message)
+        }
     },
     updateById: async (req, res, next) => {
-        const {userId} = req.params;
+        try {
+            const {userId} = req.params;
 
-        const updatedUser = await User.findByIdAndUpdate({_id:userId},{$set: req.body});
+            const updatedUser = await userService.updateUser({_id: userId}, req.body);
 
-        res.status(201).json(updatedUser);
+            res.status(201).json(updatedUser);
+
+        } catch (e) {
+            next(e.message)
+        }
     },
 }
