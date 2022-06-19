@@ -59,7 +59,7 @@ module.exports = {
         try {
             const {userId} = req.params;
 
-            const updatedUser = await User.findByIdAndUpdate({_id: userId}, {$set: {...req.body}});
+            const updatedUser = await User.findByIdAndUpdate({_id: userId}, {$set: req.body});
 
             res.status(201).json(updatedUser);
 
