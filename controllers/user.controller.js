@@ -1,4 +1,5 @@
 const {userService} = require("../services");
+const {passwordService} = require("../services");
 
 module.exports = {
     findAllUsers: async (req, res, next) => {
@@ -12,7 +13,9 @@ module.exports = {
     },
     createUser: async (req, res, next) => {
         try {
-            const newUser = await userService.createUser(req.body);
+           const hashedPassword = await passwordService.hashPassword(req.body.password);
+
+            const newUser = await userService.createUser({...req.body,password: hashedPassword});
 
             res.status(201).json(newUser);
 
@@ -49,6 +52,7 @@ module.exports = {
             const {user} = req;
 
             const updatedUser = await userService.updateById({_id: userId}, user);
+
             const {_id, name, email, age, createdAt, updatedAt} = updatedUser;
 
             res.status(201).json({_id, name, email, age, createdAt, updatedAt})

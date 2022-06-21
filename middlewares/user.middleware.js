@@ -1,23 +1,17 @@
 const {CError} = require("../errors");
 const {userService} = require("../services");
+const {userValidator} = require('../validators');
 
 module.exports = {
     isValidUserForCreate: (req, res, next) => {
         try {
-            const {name, age, email, password} = req.body;
+            const {error, value} = userValidator.newUserValidator.validate(req.body);
 
-            if (!name || name.length < 3) {
-                return next(new CError('Enter valid name'))
+            if (error) {
+                return next(new CError(error.details[0].message));
             }
-            if (!age || !Number.isInteger(age) || age < 18) {
-                return next(new CError('Enter valid age'))
-            }
-            if (!email || !email.includes('@')) {
-                return next(new CError('Enter valid email'))
-            }
-            if (!password || password < 8) {
-                return next(new CError('Enter valid password'))
-            }
+
+            req.body = value
 
             next();
         } catch (e) {
@@ -57,16 +51,14 @@ module.exports = {
     },
     isValidUserForUpdate: (req, res, next) => {
         try {
-            const {name, age} = req.body;
 
-            if (name && name < 3) {
-                return next(new CError('Enter valid name'));
-            }
-            if (age && age < 18 || !Number.isInteger(age)) {
-                return next(new CError('Enter valid age'));
+            const {error, value} = userValidator.updateUserValidator.validate(req.body);
+
+            if (error) {
+                return next(new CError(error.details[0].message))
             }
 
-            req.user = {name, age};
+            req.user = value;
 
             next();
         } catch (e) {
