@@ -1,7 +1,7 @@
 const router = require('express').Router();
 
 const {userController} = require("../controllers");
-const {commonMdlwr, userMdlwr} = require("../middlewares");
+const {commonMdlwr, userMdlwr, authMdlwr} = require("../middlewares");
 
 router.get('/',
     userController.findAllUsers);
@@ -14,6 +14,7 @@ router.get('/:userId',
     userController.findOneUser);
 router.delete('/:userId',
     commonMdlwr.isValidId,
+    authMdlwr.checkAccessToken,
     userMdlwr.isUserPresent,
     userController.deleteById);
 router.put('/:userId',

@@ -65,5 +65,22 @@ module.exports = {
             next(e);
         }
     },
+    isUserPresentWithEmail: async (req, res, next) => {
+        try {
+            const {email} = req.body;
+
+            const user = await userService.findOneUser({email});
+
+            if (!user) {
+                return next(new CError(`User with email ${email} not found`, 404))
+            }
+
+            req.user = user;
+
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
 
 }

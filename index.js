@@ -1,25 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {userRouter} = require("./routes");
+const {userRouter, authRouter} = require("./routes");
+const {config} = require("./constants");
 
-mongoose.connect('mongodb+srv://VadymVinnichuk:1t2t3t4t5t@cluster0.jdrlr.mongodb.net/users');
+mongoose.connect(config.URL_DB);
 
 const app = express();
 app.use(express.json());
-app.use(express.urlencoded({extended:true}));
+app.use(express.urlencoded({extended: true}));
 
-app.use('/users',userRouter);
+app.use('/auth', authRouter);
+app.use('/users', userRouter);
 
-app.use('*',(req, res)=>{
+app.use('*', (req, res) => {
     res.status(404).json('Router not found')
 })
 
-app.use((err,req, res, next) => {
+app.use((err, req, res, next) => {
     res
         .status(err.status || 500)
         .json({
-            error:err.message || 'Unknown Error',
+            error: err.message || 'Unknown Error',
             code: err.status || 500,
         })
 })

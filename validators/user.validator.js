@@ -13,5 +13,5 @@ module.exports = {
         email: Joi.string().regex(constants.EMAIL_REGEX).lowercase().required(),
         password: Joi.string().regex(constants.PASSWORD_REGEX).required()
     }),
-    updateUserValidator: Joi.object({...userSubSchema,  name: Joi.string().alphanum().min(2).max(100) })
+    updateUserValidator: Joi.object({...userSubSchema,  name: Joi.string().alphanum().min(2).max (100) })
 }
