@@ -26,6 +26,6 @@ app.use((err, req, res, next) => {
         })
 })
 
-app.listen(5000, () => {
+app.listen(config.PORT, () => {
     console.log('Server start port 5000')
 })
