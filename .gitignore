@@ -1,2 +1,5 @@
 .idea
 node-2022.iml
+node_modules
+node
+package-lock.json
