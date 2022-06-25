@@ -1,15 +1,15 @@
 const joi = require('joi');
-const {nameValidator, ageValidator, emailValidator, passwordValidator} = require("./common.validator");
+const userValidator = require("./common.validator");
 
 module.exports = {
-    createUserValidator: joi.object({
-        name: nameValidator.required(),
-        age: ageValidator.required(),
-        email: emailValidator.required(),
-        password: passwordValidator.required(),
+    isValidBodyForCreate: joi.object({
+        name: userValidator.name.required(),
+        age: userValidator.age.required(),
+        password: userValidator.password.required(),
+        email: userValidator.email.required(),
     }),
-    updateUserValidator: joi.object({
-        name: nameValidator,
-        age: ageValidator,
+    isValidBodyForUpdate: joi.object({
+        name: userValidator.name,
+        age: userValidator.age,
     })
 }

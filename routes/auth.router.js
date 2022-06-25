@@ -1,10 +1,11 @@
 const router = require('express').Router();
 
-const {authMdlwr} = require("../middlewares");
 const {authController} = require("../controllers");
+const {authMdlwr} = require("../middlewares");
 
-router.post('/login', authMdlwr.isLoginBodyValid, authMdlwr.isUserPresentForAuth, authController.login);
+router.post('/login', authMdlwr.isValidBodyForLogin, authMdlwr.isUserPresent, authController.login);
 router.post('/refreshToken', authMdlwr.checkRefreshToken, authController.refreshToken);
-router.post('/refreshToken', authMdlwr.checkAccessToken, authController.logout);
+router.post('/logout', authMdlwr.checkAccessToken, authController.logout);
+router.post('/logoutAll', authMdlwr.checkAccessToken, authController.logoutAllDevice);
 
 module.exports = router;

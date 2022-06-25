@@ -1,4 +1,4 @@
-module.exports ={
-    configs: require('./configs'),
+module.exports = {
     constants: require('./constants'),
+    configs: require('./configs'),
 }

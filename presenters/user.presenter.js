@@ -2,11 +2,11 @@ module.exports = {
     userPresenter: (user) => {
         return {
             _id: user._id,
-            age: user.age,
             name: user.name,
+            age: user.age,
             email: user.email,
-            createdAt: user.createdAt,
-            updatedAt: user.updatedAt,
+            createdAt:user.createdAt,
+            updatedAt:user.updatedAt,
         }
     },
 }

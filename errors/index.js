@@ -1,3 +1,3 @@
 module.exports = {
-    CError: require('./custom.errors'),
+    CError: require('./custom.error'),
 }

@@ -1,7 +1,5 @@
-const {OAuth} = require("../dataBase");
 const {passwordService, tokenService} = require("../services");
-const {userPresenter} = require("../presenters/user.presenter");
-const {generateTokens} = require("../services/token.service");
+const {OAuth} = require("../dataBase");
 
 module.exports = {
     login: async (req, res, next) => {
@@ -11,18 +9,14 @@ module.exports = {
 
             await passwordService.comparePassword(hashPassword, password);
 
-            const tokens = tokenService.generateTokens();
+            const tokens = tokenService.generateAuthTokens();
 
-            await OAuth.create({
-                userId: _id,
+            await OAuth.create({userId: _id, ...tokens})
+
+            res.json({
+                user: req.user,
                 ...tokens
             })
-
-            const userForRes = userPresenter(req.user);
-            res.json({
-                user: userForRes,
-                ...tokens
-            });
         } catch (e) {
             next(e);
         }
@@ -33,11 +27,12 @@ module.exports = {
 
             await OAuth.deleteOne({refresh_token});
 
-            const token = generateTokens();
+            const tokens = tokenService.generateAuthTokens();
 
-            await OAuth.create({userId, ...token});
+            await OAuth.create({userId, ...tokens});
 
-            res.json(token);
+            res.json(tokens);
+
         } catch (e) {
             next(e);
         }
@@ -48,7 +43,20 @@ module.exports = {
 
             await OAuth.deleteOne({access_token});
 
-            res.sendStatus(204)
+            res.sendStatus(204);
+
+        } catch (e) {
+            next(e);
+        }
+
+    },
+    logoutAllDevice: async (req, res, next) => {
+        try {
+            const {_id} = req.user;
+
+            await OAuth.deleteMany({userId: _id})
+
+            res.sendStatus(204);
         } catch (e) {
             next(e);
         }

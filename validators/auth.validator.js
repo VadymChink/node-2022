@@ -1,11 +1,9 @@
-const joi = require('joi');
-
-const {emailValidator, passwordValidator} = require("./common.validator");
+const joi = require("joi");
+const userValidator = require("./common.validator");
 
 module.exports = {
-    login: joi.object({
-        email: emailValidator.required(),
-        password: passwordValidator.required(),
+    isValidBodyForLogin: joi.object({
+        email: userValidator.email.required(),
+        password: userValidator.password.required(),
     })
-
 }
