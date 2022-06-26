@@ -1,32 +1,65 @@
-const CustomError = require("../errors/customError");
+const {CError} = require("../errors");
+const {userValidator} = require("../validators");
+const {Users} = require("../db");
 
 module.exports = {
     checkUserOnCreate: (req, res, next) => {
         try {
-            const {email = '', name = '', password = '', age = 0} = req.body;
+            const {error, value} = userValidator.userValidatorForCreate.validate(req.body);
 
-            if (!email || !name || !password) {
-                throw new CustomError('Some is filed is missing')
-            }
-            if (password.length < 5) {
-                throw new CustomError('Password should include at least 5 symbols')
+            if (error) {
+                return next(new CError(error.details[0].message));
             }
 
+            req.body = value;
             next();
         } catch (e) {
             next(e)
         }
     },
-    checkIdOnValid: (req, res, next) => {
+    isUserUniq: async (req, res, next) => {
         try {
-        const {userId} = req.params;
+            const {email} = req.body;
 
-        if (userId.length !== 24) {
-            throw new CustomError('Mongo Id not valid');
-        }
+            const user = await Users.findOne({email});
+
+            if (user) {
+                return next(new CError(`User with email; ${email} is exist`));
+            }
+
             next();
-        }catch (e) {
-            next(e)
+        } catch (e) {
+            next(e);
+        }
+    },
+    checkUserOnUpdate: (req, res, next) => {
+        try {
+            const {error, value} = userValidator.userValidatorForUpdate.validate(req.body);
+
+            if (error) {
+                return next(new CError(error.details[0].message));
+            }
+
+            req.body = value;
+            next();
+        } catch (e) {
+            next(e);
+        }
+    },
+    isUserPresent: async (req, res, next) => {
+        try {
+            const {userId} = req.params;
+
+            const user = await Users.findOne({_id: userId});
+
+            if (!user) {
+                return next(new CError(`User with id ${userId} not found`, 404))
+            }
+
+            req.user = user;
+            next();
+        } catch (e) {
+            next(e);
         }
     },
 }
