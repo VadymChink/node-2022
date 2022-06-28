@@ -25,7 +25,6 @@ module.exports = {
             const {email} = req.body;
 
             const user = await userService.findUser({email});
-            console.log(user)
 
             if (!user) {
                 return next(new CError('Wrong email or password'))
