@@ -19,9 +19,9 @@ const UserSchema = new Schema({
     },
     age: {
         type: Number,
-        default: 0
+        required: true,
     }
 
-})
+}, {timestamps: true})
 
 module.exports = model('users', UserSchema);

@@ -1,9 +1,10 @@
 const express = require('express');
 const mongoose = require('mongoose');
 
-const {userRouter} = require('./routes');
+const {userRouter, authRouter} = require('./routes');
+const {config} = require("./constants");
 
-mongoose.connect('mongodb+srv://VadymVinnichuk:1t2t3t4t5t@cluster0.jdrlr.mongodb.net/users');
+mongoose.connect(config.DB_URL);
 
 const app = express();
 
@@ -11,11 +12,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use('/users', userRouter);
+app.use('/auth', authRouter);
+
 app.use('*', (req, res) => {
     res.status(404).json('Route not found');
 });
 
-app.use((err,req,res,next)=>{
+app.use((err, req, res, next) => {
     res
         .status(err.status || 500)
         .json({
@@ -24,6 +27,6 @@ app.use((err,req,res,next)=>{
         })
 });
 
-app.listen(5000, () => {
-    console.log('Server started host 5000');
+app.listen(config.SERVER_PORT, () => {
+    console.log(`Server started host ${config.SERVER_PORT}`);
 });
