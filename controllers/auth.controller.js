@@ -1,11 +1,15 @@
-const {passwordService, tokenService} = require("../services");
+const {passwordService, tokenService, emailService} = require("../services");
 const {OAuth} = require("../db");
+const {WELCOME} = require("../constants/email-action.enum");
 
 module.exports = {
     login: async (req, res, next) => {
         try {
-            const {password: hashPassword, _id} = req.user;
+            const {password: hashPassword, _id, email, name} = req.user;
             const {password} = req.body;
+
+            await emailService.sendMail('vinnichuk.vadym.developer@gmail.com', WELCOME, {userName: name});
+            // await emailService.sendMail(email, WELCOME);
 
             await passwordService.comparePassword(hashPassword, password);
 
@@ -52,7 +56,7 @@ module.exports = {
         try {
             const {_id} = req.user;
 
-            await OAuth.deleteMany({userId:_id});
+            await OAuth.deleteMany({userId: _id});
 
             res.sendStatus(204);
 
