@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require('mongoose');
 
@@ -7,7 +8,6 @@ const {config} = require("./constants");
 mongoose.connect(config.URL_DATA_BASE);
 
 const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -22,11 +22,11 @@ app.use((err, req, res, next) => {
     res
         .status(err.status || 500)
         .json({
-            error:err.message || 'Unknow Error',
+            error: err.message || 'Unknown Error',
             code: err.status || 500
         })
 })
 
 app.listen(config.SERVER_PORT, () => {
-    console.log('Server start host 5000')
+    console.log(`Server listen port ${config.SERVER_PORT}`)
 })
