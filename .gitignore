@@ -3,3 +3,4 @@ node-2022.iml
 node
 node_modules
 package-lock.json
+.env
