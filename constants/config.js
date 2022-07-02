@@ -1,7 +1,10 @@
 module.exports = {
-    URL_DB: 'mongodb+srv://VadymVinnichuk:1t2t3t4t5t@cluster0.jdrlr.mongodb.net/users',
-    PORT: 5000,
+    URL_DB: process.env.DB_URL || 'mongodb://localhost27017/users',
+    PORT: process.env.SERVER_PORT || 5500,
 
-    ACCESS_TOKEN_SECRET: 'asd',
-    REFRESH_TOKEN_SECRET: 'qwe',
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'asd',
+    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'qwe',
+
+    NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'mail@gmail.com',
+    NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || 12345,
 }

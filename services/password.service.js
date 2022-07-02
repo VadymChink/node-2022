@@ -5,7 +5,6 @@ module.exports = {
     hashPassword: (password) => bcrypt.hash(password, 10),
     comparePassword: async (hashPassword, password) => {
         const isPasswordSame = await bcrypt.compare(password, hashPassword);
-        console.log(isPasswordSame)
 
         if (!isPasswordSame) {
             throw new CError('Wrong email or password')
