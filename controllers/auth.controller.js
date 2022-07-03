@@ -11,8 +11,7 @@ module.exports = {
 
             await passwordService.comparePassword(hashPassword, password);
 
-            await emailService.sendEmail(email, WELCOME, {userName: name})
-
+            await emailService.sendEmail(email,WELCOME,{name});
             const tokens = tokenService.generateAuthTokens();
 
             await OAuth.create({

@@ -1,6 +1,7 @@
-require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config({path: path.join(process.cwd(), 'environments' ,  `${process.env.MODE}.env`)})
 
 const {userRouter, authRouter} = require("./routes");
 const {config} = require("./constants");
@@ -15,7 +16,7 @@ app.use('/auth', authRouter);
 app.use('/users', userRouter);
 
 app.use('*', (req, res) => {
-    res.status(404).json('Router not found')
+    res.status(404).json('Router not found');
 })
 
 app.use((err, req, res, next) => {
@@ -27,6 +28,6 @@ app.use((err, req, res, next) => {
         })
 })
 
-app.listen(config.PORT, () => {
-    console.log('Server start port 5000')
+app.listen(config.SERVER_PORT, () => {
+    console.log(`Server start port ${config.SERVER_PORT}`)
 })

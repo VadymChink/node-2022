@@ -1,12 +1,12 @@
 const emailAction = require('../constants/email-actions.enums');
 
 module.exports = {
-    [emailAction.WELCOME]: {
+    [emailAction.WELCOME]:{
         subject: 'welcome on board',
-        template: 'welcome',
+        template: 'welcome'
     },
-    [emailAction.FORGOT_PASSWORD]: {
-        subject: 'ops forgot password',
-        template: 'forgot-password.pug'
+    [emailAction.FORGOT_PASSWORD]:{
+        subject: 'Forgot password',
+        template: 'forgot_password'
     }
 }
