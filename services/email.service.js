@@ -1,9 +1,9 @@
 const nodemailer = require('nodemailer');
+const path = require('path');
 const hbs = require('nodemailer-express-handlebars');
-const path = require("path");
 
 const {config} = require("../constants");
-const emailTemplate = require('../email-templates');
+const emailTemplate = require('../email-template');
 const {CError} = require("../errors");
 
 module.exports = {
@@ -14,18 +14,18 @@ module.exports = {
                 user: config.NO_REPLY_EMAIL,
                 pass: config.NO_REPLY_EMAIL_PASSWORD,
             },
-            service: 'gmail'
-        })
+            service: 'gmail',
+        });
 
         const exphbsOptions = {
             viewEngine: {
                 extname: '.hbs',
-                defaultLayout: 'main',
-                layoutsDir: path.join(process.cwd(), 'email-templates', 'layouts'),
-                partialsDir: path.join(process.cwd(), 'email-templates', 'partials'),
+                layouts: 'main',
+                layoutsDir: path.join(process.cwd(), 'email-template', 'layouts'),
+                partialsDir: path.join(process.cwd(), 'email-template', 'partials')
             },
-            viewPath: path.join(process.cwd(), 'email-templates', 'views'),
-            extName: '.hbs',
+            viewPath: path.join(process.cwd(), 'email-template', 'views'),
+            extName: '.hbs'
         }
 
         transporter.use('compile', hbs(exphbsOptions));
@@ -33,7 +33,7 @@ module.exports = {
         const templateInfo = emailTemplate[emailAction];
 
         if (!templateInfo) {
-            throw new CError('Wrong email action', 500);
+            throw new CError('wrong email action', 500);
         }
 
         context.frontendURL = config.FRONTEND_URL;
@@ -42,7 +42,7 @@ module.exports = {
             to: userEmail,
             subject: templateInfo.subject,
             template: templateInfo.template,
-            context
+            context,
         })
     },
 }
