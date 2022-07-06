@@ -6,5 +6,8 @@ module.exports = {
     loginValidator: joi.object({
         email: validator.email.required(),
         password:validator.password.required(),
-    })
+    }),
+    passwordValidator: joi.object({
+        password:validator.password.required(),
+    }),
 }

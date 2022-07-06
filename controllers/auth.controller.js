@@ -1,6 +1,6 @@
+const {WELCOME, FORGOT_PASSWORD} = require("../constants/email-action.enum");
+const {OAuth, ActionTokens, User} = require("../db");
 const {passwordService, tokenService, emailService} = require("../services");
-const {OAuth} = require("../db");
-const {WELCOME} = require("../constants/email-action.enum");
 
 module.exports = {
     login: async (req, res, next) => {
@@ -8,8 +8,7 @@ module.exports = {
             const {password: hashPassword, _id, email, name} = req.user;
             const {password} = req.body;
 
-            await emailService.sendMail('vinnichuk.vadym.developer@gmail.com', WELCOME, {userName: name});
-            // await emailService.sendMail(email, WELCOME);
+            await emailService.sendMail(email, WELCOME, {userName: name});
 
             await passwordService.comparePassword(hashPassword, password);
 
@@ -64,4 +63,38 @@ module.exports = {
             next(e);
         }
     },
+    forgotPassword: async (req, res, next) => {
+        try {
+            const {_id, name, email} = req.user;
+
+            const token = tokenService.generateActionTokens(FORGOT_PASSWORD, {name, _id});
+
+            await ActionTokens.create({
+                userId: _id,
+                token,
+                actionType: FORGOT_PASSWORD,
+            })
+
+            await emailService.sendMail(email, FORGOT_PASSWORD, {userName: name})
+
+            res.json('ok')
+        } catch (e) {
+            next(e)
+        }
+    },
+    setForgotPassword: async (req, res, next) => {
+        try {
+            const {_id} = req.user;
+            const {password} = req.body;
+
+            const hashPassword = await passwordService.hashPassword(password);
+            const updatedUser = await User.findByIdAndUpdate(_id, {password: hashPassword}, {new: true});
+
+            await ActionTokens.deleteOne({actionType: FORGOT_PASSWORD, userId: _id})
+            res.json(updatedUser)
+        } catch (e) {
+            next(e)
+        }
+    },
+
 }
