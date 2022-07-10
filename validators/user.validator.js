@@ -3,7 +3,7 @@ const joi = require('joi');
 const validator = require('./common.validator');
 
 module.exports = {
-    userValidatorForCreate: joi.object({
+    newUserValidator: joi.object({
         name: validator.name.required(),
         age: validator.age.required(),
         password: validator.password.required(),
@@ -12,5 +12,6 @@ module.exports = {
     userValidatorForUpdate: joi.object({
         name: validator.name,
         age: validator.age,
+        avatar: validator.avatar
     }),
 }

@@ -3,4 +3,12 @@ module.exports = {
     EMAIL_REGEX: /^([^.@]+)(\.[^.@]+)*@([^.@]+\.)+([^.@]+)$/,
 
     AUTHORIZATION: 'Authorization',
+
+    IMAGE_MAX_SIZE: 3 * 1024 * 1024, //3mb,
+    IMAGE_MIMETYPES: [
+        'image/gif',
+        'image/jpeg',
+        'image/jpg',
+        'image/png',
+    ]
 };

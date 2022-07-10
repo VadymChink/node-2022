@@ -1,10 +1,13 @@
-const path = require("path");
-require('dotenv').config({path: path.join(process.cwd(), 'environments', 'prod.env')});
 const express = require('express');
+const expressFileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
+const path = require("path");
 
-const {userRouter, authRouter} = require('./routes');
+require('dotenv').config({path: path.join(process.cwd(), 'environments', 'dev.env')});
+
 const {config} = require("./constants");
+const {userRouter, authRouter} = require('./routes');
+
 
 mongoose.connect(config.URL_DB);
 
@@ -13,6 +16,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
+app.use(expressFileUpload())
 app.use('/users', userRouter);
 app.use('/auth', authRouter);
 

@@ -25,10 +25,11 @@ module.exports = {
             const {error, value} = authValidator.passwordValidator.validate(req.body);
 
             if (error) {
-                return next(new CError(error.details[0].message))
+                return next(new CError('Password not valid', 400));
             }
 
             req.body = value;
+
             next();
         } catch (e) {
             next(e);
@@ -96,21 +97,21 @@ module.exports = {
     },
     checkActionToken: (actionType) => async (req, res, next) => {
         try {
-            const action_token = req.get(constants.AUTHORIZATION);
+            const token = req.get(constants.AUTHORIZATION);
 
-            if (!action_token) {
-                return next(new CError('No token', 401));
+            if (!token) {
+                return next(new CError('No token', 401))
             }
 
-            tokenService.checkActionTokens(action_token, actionType);
+            tokenService.checkActionToken(token, actionType);
 
-            const tokenInfo = await ActionTokens.findOne({token: action_token}).populate('userId');
+            const tokenInfo = await ActionTokens.findOne({token}).populate('userId');
 
             if (!tokenInfo) {
                 return next(new CError('Token not valid', 401));
             }
 
-            req.user = tokenInfo.userId;
+            req.user= tokenInfo.userId;
 
             next();
         } catch (e) {
