@@ -18,8 +18,6 @@ module.exports = {
         }
     },
 
-
-
     isUserUniq: async (req, res, next) => {
         try {
             const {email} = req.body;

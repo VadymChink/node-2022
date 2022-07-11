@@ -5,7 +5,7 @@ module.exports = {
     checkUserAvatar: async (req, res, next) => {
         try {
             if (!req.files?.avatar) {
-                return next()
+                return next();
             }
 
             const {mimetype, size} = req.files.avatar;

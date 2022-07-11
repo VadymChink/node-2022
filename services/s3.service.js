@@ -10,7 +10,7 @@ const BucketConfig = new s3({
     secretAccessKey: config.AWS_S3_SECRET_KEY,
 })
 
-const uploadFile = (file, itemType, itemId) => {
+const uploadFile = async (file, itemType, itemId) => {
     const Key = _buildFilePath(file.name, itemType, itemId);
 
     return BucketConfig.upload({
@@ -23,7 +23,7 @@ const uploadFile = (file, itemType, itemId) => {
         .promise();
 };
 
-const updateFile = (file,fileURL) => {
+const updateFile = async (file, fileURL) => {
     const Key = fileURL.split(config.AWS_S3_BUCKET_URL).pop();
 
     return BucketConfig.putObject({
@@ -36,9 +36,20 @@ const updateFile = (file,fileURL) => {
         .promise();
 };
 
+const deleteFile = async (fileURL) => {
+    const Key = fileURL.split(config.AWS_S3_BUCKET_URL).pop();
+
+    return BucketConfig.deleteObjects({
+        Bucket: config.AWS_S3_BUCKET,
+        Key,
+    })
+        .promise();
+};
+
 module.exports = {
     uploadFile,
-    updateFile
+    updateFile,
+    deleteFile,
 }
 
 function _buildFilePath(fileName, itemType, itemId) {
