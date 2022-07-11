@@ -1,9 +1,15 @@
 {
   "name": "node-2022",
   "version": "1.0.0",
+  "scripts": {
+    "start:dev": "set MODE=dev&& pm2 start app.js --attach --watch --name dec",
+    "start:prod": "set MODE=prod&& pm2 node app.js"
+  },
   "dependencies": {
     "aws-sdk": "^2.1169.0",
     "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dayjs": "^1.11.3",
     "dotenv": "^16.0.1",
     "email-templates": "^10.0.0",
     "express": "^4.18.1",
@@ -11,14 +17,17 @@
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.3",
+    "node-cron": "^3.0.1",
     "nodemailer": "^6.7.7",
+    "nodemon": "^2.0.19",
+    "pm2": "^5.2.0",
     "pug": "^3.0.2",
-    "uuid": "^8.3.2",
-    "nodemon": "^2.0.19"
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/email-templates": "^10.0.0",
     "@types/express-fileupload": "^1.2.2",
-    "@types/nodemailer": "^6.4.4"
+    "@types/nodemailer": "^6.4.4",
+    "morgan": "^1.10.0"
   }
 }

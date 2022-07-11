@@ -1,8 +1,8 @@
-const {tokenService} = require("./services");
-const {FORGOT_PASSWORD} = require("./constants/email-action.enum");
+const dayjs = require('dayjs')
 
-const _id= 65446464456;
-const name ="vadym";
+const sevenDaysBeforeNow = dayjs().subtract(1, 'months')
 
-const token = tokenService.generateActionToken(FORGOT_PASSWORD, {name, _id});
-console.log(token)
+console.log(sevenDaysBeforeNow.toString())
+
+
+

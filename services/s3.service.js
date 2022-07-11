@@ -39,12 +39,13 @@ const updateFile = async (file, fileURL) => {
 const deleteFile = async (fileURL) => {
     const Key = fileURL.split(config.AWS_S3_BUCKET_URL).pop();
 
-    return BucketConfig.deleteObjects({
+    return BucketConfig.deleteObject({
         Bucket: config.AWS_S3_BUCKET,
         Key,
     })
         .promise();
 };
+
 
 module.exports = {
     uploadFile,

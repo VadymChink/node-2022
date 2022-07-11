@@ -46,8 +46,11 @@ module.exports = {
 
             const {userId} = req.params;
 
-            if (req.files.avatar)
-            await s3Service.deleteFile(req.files.avatar);
+            console.log(req.user);
+            if (req.user.avatar) {
+                await s3Service.deleteFile(req.user.avatar);
+            }
+
             await userService.deleteUser({_id: userId});
 
             res.sendStatus(204);
@@ -64,7 +67,6 @@ module.exports = {
                 if (!req.user.avatar) {
                     const {Location} = await s3Service.uploadFile(req.files.avatar, 'user', userId);
                     req.body.avatar = Location;
-                    console.log(req.body)
                 } else {
                     await s3Service.updateFile(req.files.avatar, req.user.avatar);
                 }
@@ -79,3 +81,4 @@ module.exports = {
         }
     },
 }
+
