@@ -17,11 +17,11 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-if (config.NODE_ENV !== 'prod') {
-    const morgan = require('morgan');
-
-    app.use(morgan('dev'));
-}
+// if (config.NODE_ENV !== 'prod') {
+//     const morgan = require('morgan');
+//
+//     app.use(morgan('dev'));
+// }
 
 app.use(cors(_configureCors()));
 app.use(expressFileUpload());
