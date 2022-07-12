@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "scripts": {
     "start:dev": "set MODE=dev&& pm2 start app.js --attach --watch --name dec",
-    "start:prod": "set MODE=prod&& pm2 node app.js"
+    "start:prod": "set MODE=prod&& node app.js",
+    "start": "set MODE=prod&& node app.js"
   },
   "dependencies": {
     "aws-sdk": "^2.1169.0",

@@ -43,7 +43,7 @@ app.use((err, req, res, next) => {
 
 app.listen(config.SERVER_PORT, () => {
     console.log(`Server listen host ${config.SERVER_PORT}`);
-    cronRun();
+    // cronRun();
 });
 
 function _configureCors() {
