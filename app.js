@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const path = require("path");
 const cors = require('cors');
 
-require('dotenv').config({path: path.join(process.cwd(), 'environments', `${process.env.MODE}.env`)});
+require('dotenv').config({path: path.join(process.cwd(), 'environments', `dev.env`)});
 
 const {config} = require("./constants");
 const {userRouter, authRouter} = require('./routes');
