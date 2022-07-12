@@ -3,7 +3,7 @@ module.exports = {
     CORS_WHITE_LIST: process.env.CORS_WHITE_LIST || '',
 
     URL_DB: process.env.URL_DB || 'mongodb://localhost:27017/users',
-    SERVER_PORT: process.env.SERVER_PORT,
+    PORT: process.env.SERVER_PORT,
 
     ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET || 'sjk',
     REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET || 'sfg',

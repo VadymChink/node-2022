@@ -41,8 +41,8 @@ app.use((err, req, res, next) => {
         })
 });
 
-app.listen(config.SERVER_PORT, () => {
-    console.log(`Server listen host ${config.SERVER_PORT}`);
+app.listen(config.PORT, () => {
+    console.log(`Server listen host ${config.PORT}`);
     // cronRun();
 });
 
