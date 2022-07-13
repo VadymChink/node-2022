@@ -1,15 +1,22 @@
 const {WELCOME, FORGOT_PASSWORD} = require("../constants/email-action.enum");
+const {smsBody} = require("../common");
 const {OAuth, ActionTokens, User} = require("../db");
-const {passwordService, tokenService, emailService} = require("../services");
 const {CError} = require("../errors");
+const {passwordService, tokenService, emailService, smsService} = require("../services");
+const smsActions = require("../enums/sms-action.enum");
 
 module.exports = {
     login: async (req, res, next) => {
         try {
-            const {password: hashPassword, _id, email, name} = req.user;
+            const {password: hashPassword, _id, email, name, phone} = req.user;
             const {password} = req.body;
 
-            await emailService.sendMail(email, WELCOME, {userName: name});
+            const sms = smsBody[smsActions.WELCOME]({name});
+
+            await Promise.allSettled([
+                emailService.sendMail(email, WELCOME, {userName: name}),
+                smsService.sendSms(phone, sms),
+            ])
 
             await passwordService.comparePassword(hashPassword, password);
 
@@ -92,7 +99,7 @@ module.exports = {
             const {_id} = req.user;
             const {password} = req.body;
 
-            const hashPassword =await passwordService.hashPassword(password);
+            const hashPassword = await passwordService.hashPassword(password);
             const updatedUser = await User.findByIdAndUpdate(_id, {password: hashPassword}, {new: true});
 
             await ActionTokens.deleteOne({actionType: FORGOT_PASSWORD, userId: _id});

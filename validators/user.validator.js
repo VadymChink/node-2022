@@ -8,6 +8,7 @@ module.exports = {
         age: validator.age.required(),
         password: validator.password.required(),
         email: validator.email.required(),
+        phone: validator.phone.required(),
     }),
     userValidatorForUpdate: joi.object({
         name: validator.name,

@@ -6,5 +6,6 @@ module.exports = {
     age: joi.number().min(18).max(130).integer(),
     password: joi.string().regex(constants.PASSWORD_REGEX),
     email: joi.string().regex(constants.EMAIL_REGEX).trim().lowercase(),
-    avatar: joi.string()
+    avatar: joi.string(),
+    phone: joi.string().regex(constants.PHONE_REGEX).trim(),
 }

@@ -20,4 +20,8 @@ module.exports = {
     AWS_S3_ACCESS_KEY: process.env.AWS_S3_ACCESS_KEY,
     AWS_S3_SECRET_KEY: process.env.AWS_S3_SECRET_KEY,
     AWS_S3_BUCKET_URL: process.env.AWS_S3_BUCKET_URL,
+
+    TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
+    TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
+    TWILIO_NUMBER: process.env.TWILIO_NUMBER,
 }

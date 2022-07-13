@@ -21,7 +21,12 @@ const UserSchema = new Schema({
         type: Number,
         required: true,
     },
-    avatar: String
+    phone: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    avatar: String,
 
 }, {timestamps: true})
 
