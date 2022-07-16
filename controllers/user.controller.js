@@ -4,9 +4,10 @@ const {User} = require('../db');
 module.exports = {
     findUsers: async (req, res, next) => {
         try {
-            const users = await userService.findAllUsers();
 
-            res.json(users);
+            const paginationResponse = await userService.findAllUsersWithPagination(req.query);
+
+            res.json(paginationResponse);
         } catch (e) {
             next(e)
         }
