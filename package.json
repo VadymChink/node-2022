@@ -15,7 +15,8 @@
     "nodemailer": "^6.7.6",
     "nodemailer-express-handlebars": "^5.0.0",
     "nodemon": "^2.0.18",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "socket.io": "^4.5.1"
   },
   "devDependencies": {
     "@types/nodemailer-express-handlebars": "^4.0.2"

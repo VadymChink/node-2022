@@ -2,7 +2,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 
-require('dotenv').config({path: path.join(process.cwd(), 'environments', `${process.env.MODE}.env`) });
+const http = require('http');
+const socketIO = require('socket.io');
+
+require('dotenv').config({path: path.join(process.cwd(), 'environments', `${process.env.MODE}.env`)});
 
 const {userRouter, authRouter} = require("./routes");
 const {config} = require("./constants");
@@ -10,6 +13,47 @@ const {config} = require("./constants");
 mongoose.connect(config.URL_DB);
 
 const app = express();
+const server = http.createServer(app);
+
+const io = socketIO(server, {cors: 'http://localhost:63342'});
+
+io.on('connection', (socket) => {
+    console.log(socket.id)
+
+    socket.emit('event', {img: 'https://i.ytimg.com/vi/1Ne1hqOXKKI/maxresdefault.jpg'})
+
+    socket.on('click', (data) => {
+        new Promise(resolve => {
+            setTimeout(() => {
+                console.log('GO ');
+                resolve();
+            }, 2000)
+        })
+            .then(() => {
+                return new Promise((resolve) => {
+                    setTimeout(() => {
+                        console.log('Go');
+                        resolve();
+                    }, 2000)
+                })
+            }).then(() => {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    console.log('Go');
+                    resolve();
+                }, 2000)
+            })
+        })
+
+    })
+
+    socket.on('room:join', (roomInfo) => {
+        socket.join(roomInfo.roomID);
+
+        socket.to(roomInfo.roomID).emit('room:remember', {id: socket.id})
+    })
+})
+
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -29,6 +73,6 @@ app.use((err, req, res, next) => {
         })
 })
 
-app.listen(config.SERVER_PORT, () => {
-    console.log(`Server start port ${config.SERVER_PORT}`)
+server.listen(config.SERVER_PORT, () => {
+    console.log(`Server listen port ${config.SERVER_PORT}`)
 })
